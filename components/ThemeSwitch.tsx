@@ -14,9 +14,12 @@ const ThemeSwitch = (): JSX.Element => {
   React.useEffect(() => setMounted(true), []);
 
   if (!mounted) {
-    return null;
+    return null as any;
   }
-
+ //切换动画
+  const handle = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark')
+  };
   const isDark = theme === 'dark';
   const color = isDark ? '#fff' : '#000';
   const maskColor = isDark ? '#000' : '#fff';
@@ -25,7 +28,7 @@ const ThemeSwitch = (): JSX.Element => {
       className="theme-button"
       type="button"
       aria-label="Toggle Dark Mode"
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      onClick={handle}
     >
       <div className="moon-or-sun" />
       <div className="moon-mask" />

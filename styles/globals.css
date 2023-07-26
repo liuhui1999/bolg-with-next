@@ -18,7 +18,17 @@
 }
 
 /* Post styles */
+pre {
+  position: relative;
+}
 
+pre .copy {
+  @apply absolute top-0 right-0 w-7 h-7 cursor-pointer
+}
+
+.copy svg {
+  @apply text-gray-900 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300
+}
 .prose .anchor {
   @apply absolute invisible no-underline;
 
@@ -150,4 +160,40 @@ pre {
 
 .highlight-line {
   @apply block px-4 -mx-4 bg-gray-100 border-l-4 border-blue-500 dark:bg-gray-800;
+}
+
+
+
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 1s ease-out;
+}
+#people {
+  height: calc(100vh - 136px);
+}
+
+@media (min-width: 768px) {
+  #people {
+    height: calc(100vh - theme('spacing.20'));
+  }
 }

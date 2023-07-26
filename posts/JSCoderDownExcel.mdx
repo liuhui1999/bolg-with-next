@@ -1,0 +1,55 @@
+---
+title: 前端自主实现excel下载功能
+description: file-saver 自主实现excel下载功能，不依赖后端，实现自强！
+date: '2023-07-21'
+image: '/images/bridge.jpg'
+---
+
+今天后端问我项目里要提供一个excel下载的功能，我说好的，然后我就去网上找了一下，发现了一个很好用的库，叫做file-saver，这个库可以实现前端自主实现excel下载功能，不依赖后端，实现自强！
+```jsx 
+import FileSaver from 'file-saver';
+import axios from 'axios';
+const renderTemPlateName = (itm: any) => {
+  const templateName: any = {
+    CommodityDataImport: '商品资料导入模板',
+    OperationalConfig: '可经营商品配置导入模板',
+    distributionConfig: '配送导入模板',
+    POConfig: '采购订单导入模板',
+    withdrawalConfig: '门店退仓导入模板',
+    SalesReturnConfig: '直送退货导入模板',
+    GoodsReceiveConfig: '商品领用导入模板',
+    LoyaltyConfig: 'loyalty变价导入模板'
+  };
+  return templateName[itm];
+};
+const teamplateDownload = (item: string) => {
+    //process.env.VUE_APP_BASE_URL 是 .env 文件里配置的
+    //item 是你存在public里面的excel文件名字 如：project->public->CommodityDataImport.xlsx
+  const Url = `${process.env.VUE_APP_BASE_URL}/${item}.xlsx`;
+  axios
+    .get(Url, {
+      responseType: 'arraybuffer'
+    })
+    .then((res: any) => {
+        // 你请求进来的arraybuffer数据，需要转换成blob数据，然后用file-saver库下载
+      const blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8' });
+      // application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
+      // 以下是常见文件类型type
+      // .doc——data:application/msword;base64,
+      // .docx——data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,
+      // .xls——data:application/vnd.ms-excel;base64,
+      // .xlsx——data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,
+      // .pdf——data:application/pdf;base64,
+      // .ppt——data:application/vnd.ms-powerpoint;base64,
+      // .pptx——data:application/vnd.openxmlformats-officedocument.presentationml.presentation;base64,
+      // .txt——data:text/plain;base64,
+      // .png——data:image/png;base64,
+      // .jpg——data:image/jpeg;base64,
+      // .gif——data:image/gif;base64,
+      // .svg——data:image/svg+xml;base64,
+      // .ico——data:image/x-icon;base64,
+      // .bmp——data:image/bmp;base64,
+      FileSaver.saveAs(blob, `${renderTemPlateName(item)}.xlsx`);
+    });
+};
+```
