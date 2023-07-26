@@ -1,17 +1,9 @@
-import { GetStaticProps } from 'next';
 import React from 'react';
 import Layout from '../components/Layout';
-import { getAllPosts } from '../lib/api';
-import { PostType } from '../types/post';
 import People from '@/components/People';
 import copy from "clipboard-copy";
-
 import { MaterialSymbolsAlternateEmail, MaterialSymbolsSettingsPhoneSharp, MdiGithubFace, RiWechat2Fill } from '../components/icons';
-type IndexProps = {
-  posts: PostType[];
-};
-
-export const Index = ({ posts }: IndexProps): JSX.Element => {
+export const Index = (): JSX.Element => {
   const ContactWay = [
     { key: 'Email', text: '邮箱', value: '1003785694@qq.com', Icon: () => { return <MaterialSymbolsAlternateEmail></MaterialSymbolsAlternateEmail> } },
     { key: 'phone', text: '手机号', value: '13685328265', Icon: () => { return <MaterialSymbolsSettingsPhoneSharp></MaterialSymbolsSettingsPhoneSharp> } },
@@ -68,13 +60,4 @@ export const Index = ({ posts }: IndexProps): JSX.Element => {
     </>
   );
 };
-
-export const getStaticProps: GetStaticProps = async () => {
-  const posts = getAllPosts(['date', 'description', 'slug', 'title']);
-
-  return {
-    props: { posts },
-  };
-};
-
 export default Index;
